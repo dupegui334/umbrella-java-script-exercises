@@ -1,0 +1,32 @@
+.octet input[type="text"] {
+  background: #fff;
+  border: 1px solid #999;
+  float: left;
+  font-size: 13px;
+  height: 33px;
+  margin: 0;
+  padding: 0 0 0 0px;
+  width: 40px;
+  text-align: center;
+}
+
+.error-message {
+  color: #cc0033;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 15px;
+  margin: 5px 0 0;
+}
+
+.octet .error-message {
+  display: none;
+}
+
+.invalid input[type="text"] {
+  background-color: #fce4e4;
+  border: 1px solid #cc0033;
+  outline: none;
+}
+.invalid .error-message {
+  display: inline-block;
+}

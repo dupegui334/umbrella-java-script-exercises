@@ -1,0 +1,15 @@
+{
+  "short_name": "RDiCIDR",
+  "name": "RDerik Interactive CIDR",
+  "icons": [
+    {
+      "src": "RD.svg",
+      "purpose": "maskable any",
+      "sizes": "any"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
