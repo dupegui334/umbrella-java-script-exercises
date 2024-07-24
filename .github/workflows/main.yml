@@ -11,3 +11,8 @@ jobs:
     steps:
         - name: Echo something
           run: echo "something for you!"
+          
+        - run: echo "another message for you"
+
+        - name: Echo something
+          run: echo "something for you!"
