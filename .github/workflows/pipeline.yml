@@ -1,9 +1,11 @@
 name: CI/CD pipeline
 
 on:
-    push:
+    pull_request:
         branches:
             - main
+            - dev
+            - stage
     
 jobs:
     ci-cd:
