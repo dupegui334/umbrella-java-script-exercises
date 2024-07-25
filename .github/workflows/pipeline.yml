@@ -16,9 +16,10 @@ jobs:
               with:
                 node-version: 15
             - run: npm -v
-            - run: npm -i npm@7
 
             - run: cd codebase/rdicidr-0.1.0
+
+            - run: npm -i npm@7
 
             - name: install dependencies
               run: npm install
