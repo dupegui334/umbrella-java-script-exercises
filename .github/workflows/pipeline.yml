@@ -16,7 +16,19 @@ jobs:
               with:
                 node-version: 15
             - run: npm -v
-            - run: ls -l
+            - run: npm -i npm@7
+
+            - run: cd codebase/rdicidr-0.1.0
+
+            - name: install dependencies
+              run: npm install
+
+            - name: lint and run tests
+              run: CI=true npm run test
+
+            - name: build
+              run: npm run build
+
 
 
 
