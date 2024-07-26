@@ -1,13 +1,12 @@
-name: CI/CD pipeline
+name: build stage
 
 on:
     pull_request:
         branches:
-          - main
-          - dev
           - stage
         paths:
-          - codebase
+          - 'codebase'
+          - '.github/workflows/*'
 jobs:
     ci-cd:
         runs-on: ubuntu-latest
@@ -36,7 +35,7 @@ jobs:
               run: npm run build
               working-directory: codebase/rdicidr-0.1.0
 
-
+## pending to run the aws sync to the defined bucket
 
 
 
