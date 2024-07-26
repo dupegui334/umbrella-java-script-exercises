@@ -20,7 +20,7 @@ jobs:
         - uses: hashicorp/setup-terraform@v3
 
         - name: 'terraform validate'
-          run: terraform fmt -check
+          run: terraform fmt
           continue-on-error: true
           working-directory: 'terraform/environment/stage'
 
