@@ -18,7 +18,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src/",
-    "prettier": "prettier -c ./src/"
+    "prettier": "npx prettier ./src/ --write"
   },
   "eslintConfig": {
     "extends": [
@@ -45,9 +45,7 @@
   },
   "description": "Ok, let's get this out of the way. Why did I choose that name? I chose the name because palindromes are fun. The app's name stands for RDerik's Interactive  CIDR (RDICIDR). I had to add the Interactive to make the name work. I hope you like it.",
   "main": "index.js",
-  "devDependencies": {
-    "prettier": "3.3.3"
-  },
+  "devDependencies": {},
   "keywords": [],
   "author": "",
   "license": "ISC"
