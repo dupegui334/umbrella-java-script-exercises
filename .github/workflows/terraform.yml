@@ -17,10 +17,10 @@ jobs:
         - name: 'terraform validate'
           run: terraform fmt -check
           continue-on-error: true
-          working-directory: 'terraform/environments/stage'
+          working-directory: 'terraform/environment/stage'
 
         - name: 'terraform plan'
           run: terraform plan
-          working-directory: 'terraform/environments/stage'
+          working-directory: 'terraform/environment/stage'
 
         
