@@ -1,0 +1,26 @@
+name: terraform static app
+
+on: 
+    pull_request:
+        branches:
+            - 'stage'
+            - 'dev'
+            - 'main'
+
+jobs:
+  Terraform-validate:
+    runs-on: ubuntu-latest
+
+    steps:
+        - uses: hashicorp/setup-terraform@v3
+
+        - name: 'terraform validate'
+          run: terraform fmt -check
+          continue-on-error: true
+          working-directory: 'terraform/environments/stage'
+
+        - name: 'terraform plan'
+          run: terraform plan
+          working-directory: 'terraform/environments/stage'
+
+        
