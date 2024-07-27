@@ -22,13 +22,8 @@ jobs:
           with:
             fetch-depth: 0
         
-        - name: configure aws credentials
-          run: | 
-            echo "configuring aws credentials"
-            export AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID"
-            export AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY"
-            export AWS_DEFAULT_REGION=us-east-1
-            aws sts get-caller-identity
+        - name: validate aws credentials
+          run: aws sts get-caller-identity
 
         - uses: hashicorp/setup-terraform@v3
 
