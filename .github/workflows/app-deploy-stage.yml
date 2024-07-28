@@ -1,9 +1,9 @@
-name: app apply dev
+name: app apply stage
 
 on: 
     push:
         branches:
-          - dev
+          - stage
         paths:
           - codebase/rdicidr-0.1.0/**
 
@@ -26,16 +26,16 @@ jobs:
           - uses: hashicorp/setup-terraform@v3
 
           - run: terraform init
-            working-directory: 'terraform/environment/dev'
+            working-directory: 'terraform/environment/stage'
           
           - run: terraform output -raw bucket_name > bucket.txt
-            working-directory: 'terraform/environment/dev'
+            working-directory: 'terraform/environment/stage'
   
           - name: Upload bucket name as artifact
             uses: actions/upload-artifact@v4
             with:
-              name: dev-bucket
-              path: terraform/environment/dev/bucket.txt
+              name: stage-bucket
+              path: terraform/environment/stage/bucket.txt
           
       deploy-ci:
         runs-on: ubuntu-latest
@@ -67,7 +67,7 @@ jobs:
             - name: Upload build as artifact
               uses: actions/upload-artifact@v4
               with:
-                name: dev-build
+                name: stage-build
                 path: codebase/rdicidr-0.1.0/build
 
       Deploy-app:
@@ -82,7 +82,7 @@ jobs:
     
             - uses: actions/download-artifact@v4
               with:
-                pattern: dev-*
+                pattern: stage-*
                 path: artifacts
     
             - name: Display structure of downloaded files
@@ -93,5 +93,8 @@ jobs:
               run: aws sts get-caller-identity
     
             - name: sync bucket
-              run: aws s3 sync dev-build/ s3://$(cat dev-bucket/bucket.txt)
+              run: aws s3 sync stage-build/ s3://$(cat stage-bucket/bucket.txt)
               working-directory: artifacts
+
+
+        
