@@ -1,0 +1,42 @@
+name: app apply dev
+
+on: 
+    push:
+        branches:
+            - 'dev'
+        paths:
+          - 'codebase'
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: us-east-1
+
+jobs:
+  Deploy-app:
+    runs-on: ubuntu-latest
+
+    steps:
+
+        - uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+
+        - uses: actions/download-artifact@v4
+          with:
+            pattern: dev-*
+
+        - name: Display structure of downloaded files
+          run: ls -R
+
+        - name: validate aws credentials
+          run: aws sts get-caller-identity
+
+        - name: sync bucket
+          run: aws sync dev-build/ $(cat dev-bucket)
+
+
+### need to know what is the name of the bucket for dev/dev or main to run
+### aws sync build/ s3://bucket-name
+### aws s3 sync build s3://$(cat ../../terraform/environment/dev/bucket.txt)
+
+        
