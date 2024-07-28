@@ -1,0 +1,40 @@
+name: terraform plan main
+
+on: 
+    pull_request:
+        branches:
+            - 'main'
+        paths:
+            - 'terraform/environment/main'
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: us-east-1
+
+jobs:
+  Terraform-validate:
+    runs-on: ubuntu-latest
+
+    steps:
+
+        - uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        
+        - name: validate aws credentials
+          run: aws sts get-caller-identity
+
+        - uses: hashicorp/setup-terraform@v3
+
+        - run: terraform init
+          working-directory: 'terraform/environment/main'
+
+        - run: terraform validate
+          continue-on-error: true
+          working-directory: 'terraform/environment/main'
+      
+        - run: terraform plan
+          working-directory: 'terraform/environment/main'
+
+        
