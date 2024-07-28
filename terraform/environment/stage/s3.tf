@@ -4,6 +4,10 @@ resource "aws_s3_bucket" "web_app_s3_bucket" {
   tags = var.tags
 }
 
+output "bucket_name" {
+  value = aws_s3_bucket.web_app_s3_bucket.bucket
+}
+
 resource "aws_s3_bucket_website_configuration" "web_app_s3_bucket_config" {
   bucket = aws_s3_bucket.web_app_s3_bucket.id
 
