@@ -91,7 +91,7 @@ jobs:
               run: aws sts get-caller-identity
     
             - name: sync bucket
-              run: aws sync dev-build/ $(cat dev-bucket/bucket.txt)
+              run: aws s3 sync dev-build/ $(cat dev-bucket/bucket.txt)
               working-directory: artifacts
 
 
