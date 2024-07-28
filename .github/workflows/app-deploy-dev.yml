@@ -11,28 +11,86 @@ env:
   AWS_DEFAULT_REGION: us-east-1
 
 jobs:
-  Deploy-app:
-    runs-on: ubuntu-latest
+      fetch-bucket:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v4
+            with:
+              fetch-depth: 0
+        
+          - name: validate aws credentials
+            run: aws sts get-caller-identity
 
-    steps:
+          - uses: hashicorp/setup-terraform@v3
 
-        - uses: actions/checkout@v4
-          with:
-            fetch-depth: 0
+          - run: terraform init
+            working-directory: 'terraform/environment/dev'
+          
+          - run: terraform output -raw bucket_name > bucket.txt
+            working-directory: 'terraform/environment/dev'
+  
+          - name: Upload bucket name as artifact
+            uses: actions/upload-artifact@v4
+            with:
+              name: stage-bucket
+              path: terraform/environment/stage/bucket.txt
+          
+      deploy-CI:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+            - uses: actions/setup-node@v4
+              with:
+                node-version: 15
+            - run: npm -v
 
-        - uses: actions/download-artifact@v4
-          with:
-            pattern: dev-*
+            - name: install dependencies
+              run: npm install
+              working-directory: codebase/rdicidr-0.1.0
 
-        - name: Display structure of downloaded files
-          run: ls -R
+            - name: prettier
+              run: npm run prettier
+              working-directory: codebase/rdicidr-0.1.0
 
-        - name: validate aws credentials
-          run: aws sts get-caller-identity
+            - name: lint and run tests
+              run: CI=true npm run test
+              working-directory: codebase/rdicidr-0.1.0
 
-        - name: sync bucket
-          run: aws sync dev-build/ $(cat dev-bucket)
+            - name: build
+              run: npm run build
+              working-directory: codebase/rdicidr-0.1.0
 
+            - name: Upload build as artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: dev-build
+                path: codebase/rdicidr-0.1.0/build
+
+      Deploy-app:
+        runs-on: ubuntu-latest
+        steps:
+    
+            - uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+    
+            - uses: actions/download-artifact@v4
+              with:
+                pattern: dev-*
+    
+            - name: Display structure of downloaded files
+              run: ls -R
+    
+            - name: validate aws credentials
+              run: aws sts get-caller-identity
+    
+            - name: sync bucket
+              run: aws sync dev-build/ $(cat dev-bucket)
+
+
+      
 
 ### need to know what is the name of the bucket for dev/dev or main to run
 ### aws sync build/ s3://bucket-name
