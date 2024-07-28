@@ -5,7 +5,7 @@ on:
         branches:
           - stage
         paths:
-          - 'codebase/*'
+          - 'codebase/**'
           - '.github/workflows/app-*'
 jobs:
     CI:
