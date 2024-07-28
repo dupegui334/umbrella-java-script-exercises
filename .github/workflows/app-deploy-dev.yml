@@ -81,15 +81,18 @@ jobs:
             - uses: actions/download-artifact@v4
               with:
                 pattern: dev-*
+                path: artifacts
     
             - name: Display structure of downloaded files
               run: ls -R
+              working-directory: artifacts
     
             - name: validate aws credentials
               run: aws sts get-caller-identity
     
             - name: sync bucket
-              run: aws sync dev-build/ $(cat dev-bucket)
+              run: aws sync dev-build/ $(cat dev-bucket/bucket.txt)
+              working-directory: artifacts
 
 
       
