@@ -69,7 +69,8 @@ jobs:
                 path: codebase/rdicidr-0.1.0/build
 
       Deploy-app:
-        needs: deploy-ci
+        needs: [fetch-bucket, deploy-ci]
+
         runs-on: ubuntu-latest
         steps:
     
