@@ -32,8 +32,8 @@ jobs:
           - name: Upload bucket name as artifact
             uses: actions/upload-artifact@v4
             with:
-              name: stage-bucket
-              path: terraform/environment/stage/bucket.txt
+              name: dev-bucket
+              path: terraform/environment/dev/bucket.txt
           
       deploy-ci:
         needs: fetch-bucket
