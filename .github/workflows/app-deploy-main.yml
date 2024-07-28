@@ -3,7 +3,7 @@ name: app apply dev
 on: 
     push:
         branches:
-          - dev
+          - main
         paths:
           - codebase/rdicidr-0.1.0/**
 
@@ -26,16 +26,16 @@ jobs:
           - uses: hashicorp/setup-terraform@v3
 
           - run: terraform init
-            working-directory: 'terraform/environment/dev'
+            working-directory: 'terraform/environment/main'
           
           - run: terraform output -raw bucket_name > bucket.txt
-            working-directory: 'terraform/environment/dev'
+            working-directory: 'terraform/environment/main'
   
           - name: Upload bucket name as artifact
             uses: actions/upload-artifact@v4
             with:
-              name: dev-bucket
-              path: terraform/environment/dev/bucket.txt
+              name: main-bucket
+              path: terraform/environment/main/bucket.txt
           
       deploy-ci:
         runs-on: ubuntu-latest
@@ -67,7 +67,7 @@ jobs:
             - name: Upload build as artifact
               uses: actions/upload-artifact@v4
               with:
-                name: dev-build
+                name: main-build
                 path: codebase/rdicidr-0.1.0/build
 
       Deploy-app:
@@ -82,7 +82,7 @@ jobs:
     
             - uses: actions/download-artifact@v4
               with:
-                pattern: dev-*
+                pattern: main-*
                 path: artifacts
     
             - name: Display structure of downloaded files
@@ -93,5 +93,7 @@ jobs:
               run: aws sts get-caller-identity
     
             - name: sync bucket
-              run: aws s3 sync dev-build/ s3://$(cat dev-bucket/bucket.txt)
+              run: aws s3 sync main-build/ s3://$(cat main-bucket/bucket.txt)
               working-directory: artifacts
+
+        
