@@ -5,8 +5,8 @@ on:
         branches:
           - dev
         paths:
-          - 'codebase'
-          - '.github/workflows/*'
+          - 'codebase/*'
+          - '.github/workflows/app-*'
 
 jobs:
     CI:
