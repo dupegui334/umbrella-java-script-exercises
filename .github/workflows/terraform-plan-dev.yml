@@ -36,12 +36,3 @@ jobs:
       
         - run: terraform plan
           working-directory: 'terraform/environment/dev'
-
-        - run: terraform output -raw bucket_name > bucket.txt
-          working-directory: 'terraform/environment/dev'
-
-        - name: Upload bucket name as artifact
-          uses: actions/upload-artifact@v4
-          with:
-            name: dev-bucket
-            path: terraform/environment/dev/bucket.txt
