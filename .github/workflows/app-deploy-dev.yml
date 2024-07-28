@@ -3,7 +3,7 @@ name: app apply dev
 on: 
     push:
         branches:
-          - 'dev'
+          - dev
         paths:
           - 'codebase/**'
 env:
