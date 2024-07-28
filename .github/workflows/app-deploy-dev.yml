@@ -35,7 +35,8 @@ jobs:
               name: stage-bucket
               path: terraform/environment/stage/bucket.txt
           
-      deploy-CI:
+      deploy-ci:
+        needs: fetch-bucket
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
@@ -69,6 +70,7 @@ jobs:
                 path: codebase/rdicidr-0.1.0/build
 
       Deploy-app:
+        needs: deploy-ci
         runs-on: ubuntu-latest
         steps:
     
