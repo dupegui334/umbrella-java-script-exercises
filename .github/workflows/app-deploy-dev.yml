@@ -36,7 +36,6 @@ jobs:
               path: terraform/environment/dev/bucket.txt
           
       deploy-ci:
-        needs: fetch-bucket
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
