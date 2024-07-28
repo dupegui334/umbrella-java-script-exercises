@@ -42,11 +42,6 @@ jobs:
                 name: dev-build
                 path: codebase/rdicidr-0.1.0/build
 
-            - name: Upload build as artifact
-              uses: actions/upload-artifact@v4
-              with:
-                name: dev-build
-                path: codebase/rdicidr-0.1.0/build
 
 
                 
