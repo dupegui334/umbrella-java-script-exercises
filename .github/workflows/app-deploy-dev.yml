@@ -4,6 +4,8 @@ on:
     push:
         branches:
           - dev
+        paths:
+          - codebase/rdicidr-0.1.0/**
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
