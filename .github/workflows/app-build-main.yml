@@ -6,7 +6,7 @@ on:
           - main
         paths:
           - 'codebase/*'
-          - '.github/workflows/*'
+          - '.github/workflows/app-*'
 jobs:
     CI:
         runs-on: ubuntu-latest
