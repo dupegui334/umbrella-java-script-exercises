@@ -1,0 +1,50 @@
+name: build dev
+
+on:
+    pull_request:
+        branches:
+          - dev
+        paths:
+          - 'codebase'
+          - '.github/workflows/*'
+
+jobs:
+    ci-cd:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+            - uses: actions/setup-node@v4
+              with:
+                node-version: 15
+            - run: npm -v
+
+            - name: install dependencies
+              run: npm install
+              working-directory: codebase/rdicidr-0.1.0
+
+            - name: prettier
+              run: npm run prettier
+              working-directory: codebase/rdicidr-0.1.0
+
+            - name: lint and run tests
+              run: CI=true npm run test
+              working-directory: codebase/rdicidr-0.1.0
+
+            - name: build
+              run: npm run build
+              working-directory: codebase/rdicidr-0.1.0
+
+            - name: Upload build as artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: dev-build
+                path: codebase/rdicidr-0.1.0/build
+
+
+
+
+                
+
+
