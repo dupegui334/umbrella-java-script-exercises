@@ -1,9 +1,9 @@
-name: terraform apply dev
+name: terraform apply main
 
 on: 
     push:
         branches:
-            - 'dev'
+            - 'main'
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -11,7 +11,7 @@ env:
   AWS_DEFAULT_REGION: us-east-1
 
 jobs:
-  Terraform-apply-dev:
+  Terraform-validate:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,16 +26,16 @@ jobs:
         - uses: hashicorp/setup-terraform@v3
 
         - run: terraform init
-          working-directory: 'terraform/environment/dev'
+          working-directory: 'terraform/environment/main'
 
         - run: terraform apply
-          working-directory: 'terraform/environment/dev'
+          working-directory: 'terraform/environment/main'
        
         - run: terraform output -raw bucket_name > bucket.txt
-          working-directory: 'terraform/environment/dev'
+          working-directory: 'terraform/environment/main'
 
         - name: Upload bucket name as artifact
           uses: actions/upload-artifact@v4
           with:
-            name: dev-bucket
-            path: terraform/environment/dev/bucket.txt
+            name: main-bucket
+            path: terraform/environment/main/bucket.txt
